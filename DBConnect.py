@@ -10,21 +10,10 @@ reservation = db.Table('reservation', metadata, autoload_with=engine)
 
 metadata.create_all(engine)
 
-# commented out code will be how to insert families and reservations
-# test = db.insert(reservation).values(reservation_date=dt.date(2024, 12, 25), family_name='Pope')
-#
-# try:
-#     # Execute the insert statement
-#     connection.execute(test)
-#     connection.commit()
-#     print("Data inserted successfully")
-# except Exception as e:
-#     print("Error inserting data:", e)
-
 
 # gets family information from the database
 def retrieve_family_data():
-    query = db.select(family)
+    query = db.select(family.c.sirName, family.c.numMembers)
     result_temp = connection.execute(query)
     results = result_temp.fetchall()
     formatted_results = '\n'.join([str(row) for row in results])
@@ -36,7 +25,7 @@ def retrieve_cal_dates():
     query = db.select(reservation)
     result_temp = connection.execute(query)
     results = result_temp.fetchall()
-    formatted_results = '\n'.join([f"({row[0]}, {row[1].strftime('%m/%d/%Y')}, '{row[2]}')" for row in results])
+    formatted_results = '\n'.join([f"({row[1].strftime('%m/%d/%Y')}, '{row[2]}')" for row in results])
 
     return formatted_results
 
@@ -99,24 +88,23 @@ def remove_date(date, name):
     except Exception as e:
         print("Error deleting reservation:", e)
 
-
-def conflict_check(date):
-    try:
-        conflicting_entries = []
-        reserve_date = dt.datetime.strptime(date, '%m/%d/%Y').date()
-
-        # Query the database to find entries that overlap with the given date range
-        query = reservation.select().where(
-                    )
-
-        result = connection.execute(query).fetchall()
-
-        # Iterate through the results and collect conflicting entries
-        for row in result:
-            conflicting_entries.append(row)
-
-        return conflicting_entries
-
-    except Exception as e:
-        print("Error checking for conflicting dates:", e)
-        return None
+# def conflict_check(date):
+#     try:
+#         conflicting_entries = []
+#         reserve_date = dt.datetime.strptime(date, '%m/%d/%Y').date()
+#
+#         # Query the database to find entries that overlap with the given date range
+#         query = reservation.select().where(
+#                     )
+#
+#         result = connection.execute(query).fetchall()
+#
+#         # Iterate through the results and collect conflicting entries
+#         for row in result:
+#             conflicting_entries.append(row)
+#
+#         return conflicting_entries
+#
+#     except Exception as e:
+#         print("Error checking for conflicting dates:", e)
+#         return None
