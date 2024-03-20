@@ -1,9 +1,6 @@
 import tkinter
 from tkinter import ttk
-from tkinter import scrolledtext
 import main
-
-"""the frame is what is in the window, but not the ribbon on top an bottom and design of the window surround"""
 
 
 class App(ttk.Frame):
@@ -103,8 +100,8 @@ class App(ttk.Frame):
 
     def add_family_data(self):
         text = self.fam_entry.get()
-        sir_name, family_members = text.split(',')
-        main.add_family(sir_name, family_members)
+        surname, family_members = text.split(',')
+        main.add_family(surname, family_members)
         self.list_data()
 
     def add_date(self):

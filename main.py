@@ -1,5 +1,4 @@
-import json
-import DBConnect
+import dbconnect
 
 
 def list_data():
@@ -7,7 +6,7 @@ def list_data():
     This function will return a list of all the data in the family table of the database
     :return:
     """
-    return DBConnect.retrieve_family_data()
+    return dbconnect.retrieve_family_data()
 
 
 def list_cal_dates():
@@ -15,7 +14,7 @@ def list_cal_dates():
     This function will return a list of all the data in the reservation table of the database
     :return:
     """
-    return DBConnect.retrieve_cal_dates()
+    return dbconnect.retrieve_cal_dates()
 
 
 def add_date():
@@ -23,15 +22,15 @@ def add_date():
     # save date as sqlite date type text and look at the python calendar module.
 
 
-def add_family(sir_name, family_members):
+def add_family(surname, family_members):
     """
               Creates a new entry to the family table of the DB.
-              :param sir_name: Name of the new entry to the family table.
-              :type sir_name: String
+              :param surname: Name of the new entry to the family table.
+              :type surname: String
               :param family_members: Provide the new updated number of people in that family.
               :type family_members: Integer
               """
-    DBConnect.insert_family(sir_name, family_members)
+    dbconnect.insert_family(surname, family_members)
 
 
 def add_reservation(date, name):
@@ -42,7 +41,7 @@ def add_reservation(date, name):
                   :param name: Name that is creating the reservation.
                   :type name: String
                   """
-    DBConnect.insert_reservation(date, name)
+    dbconnect.insert_reservation(date, name)
 
 
 # #def update_family(family_members):
@@ -57,9 +56,8 @@ def add_reservation(date, name):
 
 
 def remove_date(date, name):
-    DBConnect.remove_date(date, name)
+    dbconnect.remove_date(date, name)
 
 
 # def conflict_check(date):
-#     return DBConnect.conflict_check(date)
-
+#     return dbconnect.conflict_check(date)
