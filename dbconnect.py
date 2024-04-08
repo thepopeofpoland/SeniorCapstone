@@ -13,7 +13,7 @@ metadata.create_all(engine)
 
 # gets family information from the database
 def retrieve_family_data():
-    query = db.select(family.c.sirName, family.c.numMembers)
+    query = db.select(family.c.surname, family.c.number_members)
     result_temp = connection.execute(query)
     results = result_temp.fetchall()
     formatted_results = '\n'.join([str(row) for row in results])
@@ -25,13 +25,17 @@ def retrieve_cal_dates():
     query = db.select(reservation)
     result_temp = connection.execute(query)
     results = result_temp.fetchall()
-    formatted_results = '\n'.join([f"({row[1].strftime('%m/%d/%Y')}, '{row[2]}')" for row in results])
+    return results
+# def retrieve_cal_dates():
+#     query = db.select([reservation.c.date, family.c.surname])
+#     query = query.select_from(reservation.join(family, reservation.c.family_id == family.c.family_id))
+#     result_temp = connection.execute(query)
+#     results = result_temp.fetchall()
+#     return results
 
-    return formatted_results
 
-
-def insert_family(famName, memNumber):
-    test = db.insert(family).values(sirName=famName, numMembers=memNumber)
+def insert_family(fam_name, mem_number):
+    test = db.insert(family).values(surname=fam_name, number_members=mem_number)
 
     try:
         # Execute the insert statement
@@ -43,8 +47,8 @@ def insert_family(famName, memNumber):
         print("Error inserting data:", e)
 
 
-def update_family(famName, memNumber):
-    test = family.update().values(numMembers=memNumber).where(family.c.sirName==famName)
+def update_family(fam_name, mem_number):
+    test = family.update().values(num_members=mem_number).where(family.c.surname==fam_name)
 
     try:
         # Execute the insert statement

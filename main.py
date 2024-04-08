@@ -4,7 +4,7 @@ import dbconnect
 def list_data():
     """
     This function will return a list of all the data in the family table of the database
-    :return:
+
     """
     return dbconnect.retrieve_family_data()
 
@@ -12,14 +12,9 @@ def list_data():
 def list_cal_dates():
     """
     This function will return a list of all the data in the reservation table of the database
-    :return:
+
     """
     return dbconnect.retrieve_cal_dates()
-
-
-def add_date():
-    pass
-    # save date as sqlite date type text and look at the python calendar module.
 
 
 def add_family(surname, family_members):
@@ -44,15 +39,15 @@ def add_reservation(date, name):
     dbconnect.insert_reservation(date, name)
 
 
-# #def update_family(family_members):
-#     """
-#            Modifies an entry to the family Data
-#
-#            :param family_members: provide the new updated number of people in that family
-#            :type family_members: integer
-#            """
-#
-#      need to add this still
+def update_family(family_members):
+    """
+           Modifies an entry to the family Data
+
+           :param family_members: provide the new updated number of people in that family
+           :type family_members: integer
+           """
+
+
 
 
 def remove_date(date, name):
