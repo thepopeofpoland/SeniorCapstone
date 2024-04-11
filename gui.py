@@ -1,5 +1,6 @@
 import tkinter
-import tkcalendar
+from tkcalendar import Calendar
+
 from tkinter import ttk
 import main
 
@@ -53,7 +54,7 @@ class App(ttk.Frame):
         self.delete_date.insert(0, "Date to delete")
 
         # input field label
-        date_label = ttk.Label(self, text="Date format is yyyy/mm/dd")
+        date_label = ttk.Label(self, text="Date format is yyyy-mm-dd")
         date_label.grid(row=2, column=2)
         check_label = ttk.Label(self, text="Conflicting dates")
         check_label.grid(row=5, column=2)
@@ -79,11 +80,8 @@ class App(ttk.Frame):
 
     def list_data(self):
         data = main.list_data()
-        # below re-enables the text box to let it be written to then clears it, then adds the text, then
-        # re-locks the box to prevent writing.
         self.text.config(state=tkinter.NORMAL)
         self.text.delete('1.0', tkinter.END)
-        # below inserts into the text box
         self.text.insert(tkinter.INSERT, data)
         self.text.config(state=tkinter.DISABLED)
 
@@ -104,30 +102,47 @@ class App(ttk.Frame):
     def add_date(self):
         date = self.reserve_date.get()
         name = self.family_name.get()
+        check_date = main.conflict_check(date)
 
-        main.add_reservation(date, name)
-        data = main.list_cal_dates()
-        self.calendar.config(state=tkinter.NORMAL)
-        self.calendar.delete('1.0', tkinter.END)
-        self.calendar.insert(tkinter.INSERT, data)
-        self.calendar.config(state=tkinter.DISABLED)
+        if check_date:
+            test = main.find_conflicts(date)
 
-        # self.overlap_field.config(state=tkinter.NORMAL)
-        # self.overlap_field.delete('1.0', tkinter.END)
-        # self.overlap_field.insert(tkinter.INSERT, data)
-        # self.overlap_field.config(state=tkinter.DISABLED)
+            self.overlap_field.config(state=tkinter.NORMAL)
+            self.overlap_field.delete('1.0', tkinter.END)
+            self.overlap_field.insert(tkinter.INSERT, test)
+            self.overlap_field.config(state=tkinter.DISABLED)
 
-    # modify the input fields to just be a name field, a number field, and a date field.
+        else:
+            main.add_reservation(date, name)
+            data = main.list_cal_dates()
+
+            self.calendar.config(state=tkinter.NORMAL)
+            self.calendar.delete('1.0', tkinter.END)
+            self.calendar.insert(tkinter.INSERT, data)
+            self.calendar.config(state=tkinter.DISABLED)
+
     def update_family(self):
-        integer = self.fam_mod.get()
+        family_members = self.fam_mod.get()
+        family_members = int(family_members)
         name = self.family_name.get()
-        main.update_family(integer, name)
+        print(name)
+        main.update_family(family_members, name)
         self.list_data()
+        data = main.list_data()
+        self.text.config(state=tkinter.NORMAL)
+        self.text.delete('1.0', tkinter.END)
+        self.text.insert(tkinter.INSERT, data)
+        self.text.config(state=tkinter.DISABLED)
 
     def remove_date(self):
         date = self.delete_date.get()
         name = self.family_name.get()
         main.remove_date(date, name)
+        data = main.list_cal_dates()
+        self.calendar.config(state=tkinter.NORMAL)
+        self.calendar.delete('1.0', tkinter.END)
+        self.calendar.insert(tkinter.INSERT, data)
+        self.calendar.config(state=tkinter.DISABLED)
 
 
 if __name__ == "__main__":
