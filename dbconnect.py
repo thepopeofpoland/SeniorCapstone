@@ -22,16 +22,11 @@ def retrieve_family_data():
 
 
 def retrieve_cal_dates():
-    query = db.select(reservation)
+    query = db.select(reservation.c.date, family.c.surname).join_from(reservation, family)
     result_temp = connection.execute(query)
     results = result_temp.fetchall()
-    return results
-# def retrieve_cal_dates():
-#     query = db.select([reservation.c.date, family.c.surname])
-#     query = query.select_from(reservation.join(family, reservation.c.family_id == family.c.family_id))
-#     result_temp = connection.execute(query)
-#     results = result_temp.fetchall()
-#     return results
+    formatted_results = [(str(date), str(surname)) for date, surname in results]
+    return formatted_results
 
 
 def insert_family(fam_name, mem_number):
@@ -48,7 +43,12 @@ def insert_family(fam_name, mem_number):
 
 
 def update_family(fam_name, mem_number):
-    test = family.update().values(num_members=mem_number).where(family.c.surname==fam_name)
+    print(fam_name)
+    family_id_query = db.select(family.c.family_id).where(family.c.surname == fam_name)
+    family_id_result = connection.execute(family_id_query)
+    family_id = family_id_result.scalar()
+    print(family_id)
+    test = family.update().values(number_members=mem_number).where(family.c.family_id == family_id)
 
     try:
         # Execute the insert statement
@@ -61,10 +61,11 @@ def update_family(fam_name, mem_number):
 
 
 def insert_reservation(date, name):
-    # Attempt to parse the date string into a date object
-    reserve = dt.datetime.strptime(date, '%m/%d/%Y').date()
-    print(reserve)
-    test = db.insert(reservation).values(reservation_date=reserve, family_name=name)
+    family_id_query = db.select(family.c.family_id).where(family.c.surname == name)
+    family_id_result = connection.execute(family_id_query)
+    family_id = family_id_result.scalar()
+
+    test = db.insert(reservation).values(date=date, family_id=family_id)
 
     try:
         # Execute the insert statement
@@ -76,12 +77,12 @@ def insert_reservation(date, name):
 
 
 def remove_date(date, name):
-    # figure out how to get the primary key from the selected date and delete by the primary key
-    reserve = dt.datetime.strptime(date, '%m/%d/%Y').date()
+    family_id_query = db.select(family.c.family_id).where(family.c.surname == name)
+    family_id_result = connection.execute(family_id_query)
+    family_id = family_id_result.scalar()
 
-    # Create a SQLAlchemy delete statement
     delete_entry = reservation.delete().where(
-        (reservation.c.family_name == name) & (reservation.c.reservation_date == reserve)
+        (reservation.c.family_id == family_id) & (reservation.c.date == date)
     )
     # Execute the delete statement
     try:
@@ -92,23 +93,18 @@ def remove_date(date, name):
     except Exception as e:
         print("Error deleting reservation:", e)
 
-# def conflict_check(date):
-#     try:
-#         conflicting_entries = []
-#         reserve_date = dt.datetime.strptime(date, '%m/%d/%Y').date()
-#
-#         # Query the database to find entries that overlap with the given date range
-#         query = reservation.select().where(
-#                     )
-#
-#         result = connection.execute(query).fetchall()
-#
-#         # Iterate through the results and collect conflicting entries
-#         for row in result:
-#             conflicting_entries.append(row)
-#
-#         return conflicting_entries
-#
-#     except Exception as e:
-#         print("Error checking for conflicting dates:", e)
-#         return None
+
+def conflict_check(date):
+    query = db.select(family.c.surname, reservation.c.reservation_id).join_from(family, reservation)
+    query_result = connection.execute(query)
+    result = query_result.fetchone()
+
+    return result is not None
+
+
+def find_conflicts(date):
+    query = db.select(reservation.c.date, family.c.surname).where(reservation.c.date == date).join_from(reservation, family)
+    query_result = connection.execute(query)
+    result = query_result.fetchall()
+
+    return result
