@@ -28,6 +28,16 @@ def add_family(surname, family_members):
     dbconnect.insert_family(surname, family_members)
 
 
+def update_family(family_members, name):
+    """
+           Modifies an entry to the family Data
+
+           :param family_members: provide the new updated number of people in that family
+           :type family_members: integer
+           """
+    dbconnect.update_family(name, family_members)
+
+
 def add_reservation(date, name):
     """
                   Creates a new entry to the family table of the DB.
@@ -39,20 +49,12 @@ def add_reservation(date, name):
     dbconnect.insert_reservation(date, name)
 
 
-def update_family(family_members):
-    """
-           Modifies an entry to the family Data
-
-           :param family_members: provide the new updated number of people in that family
-           :type family_members: integer
-           """
-
-
-
-
 def remove_date(date, name):
     dbconnect.remove_date(date, name)
 
 
-# def conflict_check(date):
-#     return dbconnect.conflict_check(date)
+def conflict_check(date):
+    return dbconnect.conflict_check(date)
+
+def find_conflicts(date):
+    return dbconnect.find_conflicts(date)
