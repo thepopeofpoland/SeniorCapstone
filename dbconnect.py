@@ -1,4 +1,3 @@
-import datetime as dt
 import sqlalchemy as db
 
 engine = db.create_engine('sqlite:///calendar.db')
@@ -37,6 +36,7 @@ def insert_family(fam_name, mem_number):
         connection.execute(test)
         connection.commit()
         print("Data inserted successfully")
+        return ""
 
     except Exception as e:
         print("Error inserting data:", e)
@@ -55,6 +55,7 @@ def update_family(fam_name, mem_number):
         connection.execute(test)
         connection.commit()
         print("Data inserted successfully")
+        return ""
 
     except Exception as e:
         print("Error inserting data:", e)
@@ -72,6 +73,8 @@ def insert_reservation(date, name):
         connection.execute(test)
         connection.commit()
         print("Data inserted successfully")
+        return ""
+
     except Exception as e:
         print("Error inserting data:", e)
 
@@ -89,13 +92,14 @@ def remove_date(date, name):
         connection.execute(delete_entry)
         connection.commit()
         print("Reservation deleted successfully")
+        return ""
 
     except Exception as e:
         print("Error deleting reservation:", e)
 
 
 def conflict_check(date):
-    query = db.select(family.c.surname, reservation.c.reservation_id).join_from(family, reservation)
+    query = db.select(reservation.c.date).where(reservation.c.date == date)
     query_result = connection.execute(query)
     result = query_result.fetchone()
 
