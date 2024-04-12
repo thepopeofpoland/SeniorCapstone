@@ -10,7 +10,6 @@ reservation = db.Table('reservation', metadata, autoload_with=engine)
 metadata.create_all(engine)
 
 
-# gets family information from the database
 def retrieve_family_data():
     query = db.select(family.c.surname, family.c.number_members)
     result_temp = connection.execute(query)
@@ -32,7 +31,6 @@ def insert_family(fam_name, mem_number):
     test = db.insert(family).values(surname=fam_name, number_members=mem_number)
 
     try:
-        # Execute the insert statement
         connection.execute(test)
         connection.commit()
         print("Data inserted successfully")
@@ -49,7 +47,6 @@ def update_family(fam_name, mem_number):
     test = family.update().values(number_members=mem_number).where(family.c.family_id == family_id)
 
     try:
-        # Execute the insert statement
         connection.execute(test)
         connection.commit()
         print("Data inserted successfully")
@@ -67,7 +64,6 @@ def insert_reservation(date, name):
     test = db.insert(reservation).values(date=date, family_id=family_id)
 
     try:
-        # Execute the insert statement
         connection.execute(test)
         connection.commit()
         print("Data inserted successfully")
@@ -85,7 +81,6 @@ def remove_date(date, name):
     delete_entry = reservation.delete().where(
         (reservation.c.family_id == family_id) & (reservation.c.date == date)
     )
-    # Execute the delete statement
     try:
         connection.execute(delete_entry)
         connection.commit()
