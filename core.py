@@ -20,12 +20,12 @@ def list_cal_dates():
 
 def add_family(surname, family_members):
     """
-              Creates a new entry to the family table of the DB.
-              :param surname: Name of the new entry to the family table.
-              :type surname: String
-              :param family_members: Provide the new updated number of people in that family.
-              :type family_members: Integer
-              """
+    Creates a new entry to the family table of the DB.
+    :param surname: Name of the new entry to the family table.
+    :type surname: String
+    :param family_members: Provide the new updated number of people in that family.
+    :type family_members: Integer
+    """
     family_member = int(family_members)
     if not re.match(r'^[A-Za-z]+$', surname) or not isinstance(family_member, int):
         return "Not a valid family name or number of members."
@@ -35,13 +35,13 @@ def add_family(surname, family_members):
 
 def update_family(family_members, name):
     """
-           Modifies an entry to the family Data
+    Modifies an entry to the family Data
 
-           :param family_members: provide the new updated number of people in that family
-           :type family_members: integer
-           :param name: Name of the family to be updated
-           :type name: String
-           """
+    :param family_members: provide the new updated number of people in that family
+    :type family_members: integer
+    :param name: Name of the family to be updated
+    :type name: String
+    """
     family_member = int(family_members)
     if not re.match(r'^[A-Za-z]+$', name) or not isinstance(family_member, int):
         return "Not a valid family name or number of members."
@@ -51,12 +51,12 @@ def update_family(family_members, name):
 
 def add_reservation(date, name):
     """
-                  Creates a new entry to the family table of the DB.
-                  :param date: Brings in a string representing the date of the reservation.
-                  :type date: String
-                  :param name: Name that is creating the reservation.
-                  :type name: String
-                  """
+    Creates a new entry to the family table of the DB.
+    :param date: Brings in a string representing the date of the reservation.
+    type date: String
+    :param name: Name that is creating the reservation.
+    :type name: String
+    """
 
     if not re.match(r'^\d{4}-\d{2}-\d{2}$', date) or not re.match(r'^[A-Za-z]+$', name):
         return "Not a valid reservation date or name."
@@ -64,8 +64,14 @@ def add_reservation(date, name):
         return dbconnect.insert_reservation(date, name)
 
 
-
 def remove_date(date, name):
+    """
+    Removes an entry from the family table of the DB.
+    :param date: Brings in a string representing the date of the reservation.
+    :type date: String
+    :param name: Name that is on the reservation.
+    :type name: String
+    """
     if not re.match(r'^\d{4}-\d{2}-\d{2}$', date) or not re.match(r'^[A-Za-z]+$', name):
         return "Not a valid reservation date or name."
     else:
@@ -73,8 +79,18 @@ def remove_date(date, name):
 
 
 def conflict_check(date):
+    """
+    Checks if a date is already in the family table of the DB.
+    :param date: Brings in a string representing the date of the reservation.
+    :type date: String
+    """
     return dbconnect.conflict_check(date)
 
 
 def find_conflicts(date):
+    """
+    Returns all conflicting dates in the DB.
+    :param date: Brings in a string representing the date of the reservation.
+    :type date: String
+    """
     return dbconnect.find_conflicts(date)
