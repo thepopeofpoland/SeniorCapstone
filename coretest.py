@@ -13,13 +13,11 @@ class TestCalendarApp(unittest.TestCase):
         dbconnect.update_family = MagicMock()
 
     def test_list_data_returns_correct_data(self):
-        expected_family_data = [{'name': 'Smith', 'age': 32}, {'name': 'Doe', 'age': 28}]
+        expected_family_data = [{'name': 'Smith', 'age': 3}, {'name': 'Doe', 'age': 2}]
         dbconnect.retrieve_family_data.return_value = expected_family_data
 
-        # Call the function
         result = core.list_data()
 
-        # Check the result
         self.assertEqual(result, expected_family_data)
 
     def test_list_cal_dates_returns_correct_data(self):
@@ -27,10 +25,8 @@ class TestCalendarApp(unittest.TestCase):
                                    {'date': '2024-04-13', 'event': 'Workshop'}]
         dbconnect.retrieve_cal_dates.return_value = expected_calendar_dates
 
-        # Call the function
         result = core.list_cal_dates()
 
-        # Check the result
         self.assertEqual(result, expected_calendar_dates)
 
     def test_add_family(self):
