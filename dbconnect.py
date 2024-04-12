@@ -43,11 +43,9 @@ def insert_family(fam_name, mem_number):
 
 
 def update_family(fam_name, mem_number):
-    print(fam_name)
     family_id_query = db.select(family.c.family_id).where(family.c.surname == fam_name)
     family_id_result = connection.execute(family_id_query)
     family_id = family_id_result.scalar()
-    print(family_id)
     test = family.update().values(number_members=mem_number).where(family.c.family_id == family_id)
 
     try:
