@@ -12,7 +12,7 @@ the GUI to send information to and from dbconnect, and dbconnect.py is specific 
 and a SQLite database. The file calendar.db contains some sample families, and reservations to allow for testing of the
 GUI functions.
 
-### Prerequisites
+## Prerequisites
 You will need to have Python3 and SQAlchemy installed for this project to work on your system.
 Before you begin, ensure you have installed Python 3 on your machine. You can download it from the 
 [official Python website](https://www.python.org/downloads/).
