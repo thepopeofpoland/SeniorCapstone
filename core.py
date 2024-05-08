@@ -7,7 +7,9 @@ def list_data():
     This function will return a list of all the data in the family table of the database
 
     """
-    return dbconnect.retrieve_family_data()
+    results = dbconnect.retrieve_family_data()
+    formatted_results = '\n'.join([str(row) for row in results])
+    return formatted_results
 
 
 def list_cal_dates():
@@ -15,7 +17,9 @@ def list_cal_dates():
     This function will return a list of all the data in the reservation table of the database
 
     """
-    return dbconnect.retrieve_cal_dates()
+    result = dbconnect.retrieve_cal_dates()
+    formatted_results = [(str(date), str(surname)) for date, surname in result]
+    return formatted_results
 
 
 def add_family(surname, family_members):
@@ -58,8 +62,8 @@ def add_reservation(date, name):
     :type name: String
     """
 
-    if not re.match(r'^\d{4}-\d{2}-\d{2}$', date) or not re.match(r'^[A-Za-z]+$', name):
-        return "Not a valid reservation date or name."
+    if not re.match(r'^[A-Za-z]+$', name):
+        return "Not a valid reservation name."
     else:
         return dbconnect.insert_reservation(date, name)
 
@@ -85,12 +89,3 @@ def conflict_check(date):
     :type date: String
     """
     return dbconnect.conflict_check(date)
-
-
-def find_conflicts(date):
-    """
-    Returns all conflicting dates in the DB.
-    :param date: Brings in a string representing the date of the reservation.
-    :type date: String
-    """
-    return dbconnect.find_conflicts(date)

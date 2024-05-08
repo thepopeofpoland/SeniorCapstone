@@ -14,17 +14,16 @@ def retrieve_family_data():
     query = db.select(family.c.surname, family.c.number_members)
     result_temp = connection.execute(query)
     results = result_temp.fetchall()
-    formatted_results = '\n'.join([str(row) for row in results])
 
-    return formatted_results
+    return results
 
 
 def retrieve_cal_dates():
     query = db.select(reservation.c.date, family.c.surname).join_from(reservation, family)
     result_temp = connection.execute(query)
     results = result_temp.fetchall()
-    formatted_results = [(str(date), str(surname)) for date, surname in results]
-    return formatted_results
+
+    return results
 
 
 def insert_family(fam_name, mem_number):
@@ -97,11 +96,3 @@ def conflict_check(date):
     result = query_result.fetchone()
 
     return result is not None
-
-
-def find_conflicts(date):
-    query = db.select(reservation.c.date, family.c.surname).where(reservation.c.date == date).join_from(reservation, family)
-    query_result = connection.execute(query)
-    result = query_result.fetchall()
-
-    return result
