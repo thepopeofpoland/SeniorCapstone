@@ -6,8 +6,9 @@ dates.
 
 ## Getting Started
 
-The program is straight forward. Download the files you want to utilize, gui.py and core.py are the two files that are implicitly needed. The gui.py file contains the code to make the GUI appear, core.py contains the code that allows the GUI to send information to and from dbconnect, and dbconnect.py is specific to running this program using SQLAlchemy and a SQLite database. The file calendar.db contains some sample families, and reservations to allow for testing of the
-GUI functions.
+The program is straight forward. Download the files you want to utilize, `gui.py` and `core.py` are the two files that are implicitly needed. The `gui.py` file contains the code to make the GUI appear, `core.py` contains the code that allows the GUI to send information to and from dbconnect, and `dbconnect.py` is specific to running this program using SQLAlchemy and a SQLite database. The file `calendar.db` contains some sample families, and reservations to allow for testing of the GUI functions.
+
+To utilize the GUI, run the `gui.py` file. To reserve a date, enter the name of the family you want to reserve for, then click the date on the calendar that you would like to reserve, and then click the `reserve date` button. This will add the desired date to the database. If there is a conflict where someone else has a reservation a pop up will trigger asking if you want to still reserve with the conflict. The process works the same for deleting a date from the database, just click the `delete date` button. To add a family to the database, fill in the top two text fields with your surname and the number of people in your family then click the `add family` button. To update a family and increase the amount of people fill in the same top two fields, and hitting the `update family` button. 
 
 ## Prerequisites
 You will need to have Python3 and SQAlchemy installed for this project to work on your system.
