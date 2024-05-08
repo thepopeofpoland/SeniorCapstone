@@ -6,10 +6,7 @@ dates.
 
 ## Getting Started
 
-The program is straight forward. Download the files you want to utilize, gui.py and core.py are the two files that are 
-implicitly needed. gui.py contains the code to make the GUI appear, core.py contains the code that allows
-the GUI to send information to and from dbconnect, and dbconnect.py is specific to running this program using SQLAlchemy
-and a SQLite database. The file calendar.db contains some sample families, and reservations to allow for testing of the
+The program is straight forward. Download the files you want to utilize, gui.py and core.py are the two files that are implicitly needed. The gui.py file contains the code to make the GUI appear, core.py contains the code that allows the GUI to send information to and from dbconnect, and dbconnect.py is specific to running this program using SQLAlchemy and a SQLite database. The file calendar.db contains some sample families, and reservations to allow for testing of the
 GUI functions.
 
 ## Prerequisites
@@ -25,4 +22,3 @@ Next check that pip is properly installed by entering `pip --version` into the t
 To install SQLAlchemy enter `pip install SQLAlchemy` into a terminal. To verify that it is installed correctly,
 open a python terminal and enter `import sqlalchemy` hit enter, and then enter `sqlalchemy.__version__`. This will show
 the version you have installed.
-
