@@ -22,3 +22,6 @@ Next check that pip is properly installed by entering `pip --version` into the t
 To install SQLAlchemy enter `pip install SQLAlchemy` into a terminal. To verify that it is installed correctly,
 open a python terminal and enter `import sqlalchemy` hit enter, and then enter `sqlalchemy.__version__`. This will show
 the version you have installed.
+
+## GUI layout
+The GUI is laid out with a square format. The top two fields are text input fields for the user to add information necessary to make a reservation, delete a reservation, add a new family to the database, or update a family in the database. Next down there are the two buttons that control the addition of and modification of a family in the database. Below that are the buttons to create or delete a reservation date. Next comes the fault field which will display any faults the user causes such as a faulty name or improper character for the number of members in the family. The last line contains the calendar display that shows all of the reservations and allows for the selection of dates for reserving and deleting dates. Next to the calendar is the window that displays who has reservations for the date selected.
